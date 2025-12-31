@@ -1,0 +1,140 @@
+#define ENA 2 //*****
+#define IN1 22 //****
+#define IN2 23 //****
+#define IN3 24 //****
+#define IN4 25 //****
+#define ENB 3 //******
+#define TRIG_PIN 9 //*****
+#define ECHO_PIN 10 //*****
+#define GRID_SIZE 5
+#define NUM_ACTIONS 3
+#define CELL_DIST 10
+#define MOVE_TIME 300
+
+#define TURN_TIME 700
+#define ACTION_WAIT 1000
+#define RESET_DELAY 10000
+#define MAX_STEPS 50
+
+// Q-LEARNING HYPERPARAMETERS - OPTIMISÉS
+#define LEARNING_RATE 0.5      // Apprentissage rapide
+#define DISCOUNT 0.9           // Focus objectif proche
+#define EPSILON 0.3            
+#define EPSILON_MIN 0.05       // 5% exploration minimale
+#define EPSILON_DECAY 0.95     // Décroissance rapide
+#define NUM_CYCLES 50         
+
+=== FIN DE CYCLE === Repos 10s ===
+
+--- Cycle 1 (eps=0.30) ---
+E0: TURN_RIGHT (0,0) -1
+E1: FORWARD (0,0) -1
+E2: TURN_RIGHT (1,0) -1
+E3: TURN_LEFT (1,0) -1
+E4: FORWARD (1,0) -1
+E5: FORWARD (2,0) -1
+E6: FORWARD (3,0) -1
+E7: FORWARD (4,0) MUR -5
+E8: TURN_LEFT (4,0) -1
+E9: FORWARD (4,0) -1
+E10: TURN_RIGHT (4,1) -1
+E11: FORWARD (4,1) MUR -5
+E12: FORWARD (4,1) MUR -5
+E13: FORWARD (4,1) MUR -5
+E14: TURN_LEFT (4,1) -1
+E15: FORWARD (4,1) -1
+E16: FORWARD (4,2) -1
+E17: FORWARD (4,3) -1
+>>> GOAL +100 <<<
+Fin: 18 ep, R=67 GOAL!
+=== FIN DE CYCLE === Repos 10s ===
+
+--- Cycle 2 (eps=0.28) ---
+E0: FORWARD (0,0) -1
+E1: FORWARD (0,1) -1
+E2: FORWARD (0,2) -1
+E3: FORWARD (0,3) -1
+E4: TURN_RIGHT (0,4) -1
+E5: FORWARD (0,4) -1
+E6: FORWARD (1,4) -1
+E7: FORWARD (2,4) -1
+E8: TURN_RIGHT (3,4) -1
+E9: FORWARD (3,4) -1
+E10: FORWARD (3,3) -1
+E11: TURN_LEFT (3,2) -1
+E12: FORWARD (3,2) -1
+E13: TURN_LEFT (4,2) -1
+E14: TURN_LEFT (4,2) -1
+E15: FORWARD (4,2) -1
+E16: FORWARD (3,2) -1
+E17: FORWARD (2,2) -1
+E18: FORWARD (1,2) -1
+E19: FORWARD (0,2) MUR -5
+E20: TURN_LEFT (0,2) -1
+E21: FORWARD (0,2) -1
+E22: FORWARD (0,1) -1
+E23: FORWARD (0,0) MUR -5
+E24: TURN_LEFT (0,0) -1
+E25: TURN_RIGHT (0,0) -1
+E26: TURN_RIGHT (0,0) -1
+E27: FORWARD (0,0) MUR -5
+E28: TURN_LEFT (0,0) -1
+E29: TURN_LEFT (0,0) -1
+E30: TURN_LEFT (0,0) -1
+E31: TURN_RIGHT (0,0) -1
+E32: TURN_LEFT (0,0) -1
+E33: TURN_RIGHT (0,0) -1
+E34: TURN_LEFT (0,0) -1
+E35: FORWARD (0,0) -1
+E36: FORWARD (0,1) -1
+E37: FORWARD (0,2) -1
+E38: FORWARD (0,3) -1
+E39: TURN_RIGHT (0,4) -1
+E40: TURN_RIGHT (0,4) -1
+E41: FORWARD (0,4) -1
+E42: TURN_LEFT (0,3) -1
+E43: TURN_LEFT (0,3) -1
+E44: FORWARD (0,3) -1
+E45: TURN_LEFT (0,4) -1
+E46: TURN_LEFT (0,4) -1
+E47: TURN_RIGHT (0,4) -1
+E48: FORWARD (0,4) MUR -5
+E49: TURN_LEFT (0,4) -1
+Fin: 50 ep, R=-66
+=== FIN DE CYCLE === Repos 10s ===
+
+--- Cycle 3 (eps=0.27) ---
+E0: TURN_RIGHT (0,0) -1
+E1: TURN_LEFT (0,0) -1
+E2: TURN_RIGHT (0,0) -1
+E3: TURN_LEFT (0,0) -1
+E4: TURN_RIGHT (0,0) -1
+E5: TURN_LEFT (0,0) -1
+E6: FORWARD (0,0) -1
+E7: FORWARD (0,1) -1
+E8: FORWARD (0,2) -1
+E9: FORWARD (0,3) -1
+E10: TURN_RIGHT (0,4) -1
+E11: FORWARD (0,4) -1
+E12: FORWARD (1,4) -1
+E13: FORWARD (2,4) -1
+E14: FORWARD (3,4) -1
+>>> GOAL +100 <<<
+Fin: 15 ep, R=86 GOAL!
+=== FIN DE CYCLE === Repos 10s ===
+
+--- Cycle 4 (eps=0.26) ---
+E0: FORWARD (0,0) -1
+E1: TURN_LEFT (0,1) -1
+E2: TURN_RIGHT (0,1) -1
+E3: FORWARD (0,1) -1
+E4: FORWARD (0,2) -1
+E5: FORWARD (0,3) -1
+E6: TURN_RIGHT (0,4) -1
+E7: FORWARD (0,4) -1
+E8: FORWARD (1,4) -1
+E9: FORWARD (2,4) -1
+E10: FORWARD (3,4) -1
+>>> GOAL +100 <<<
+Fin: 11 ep, R=90 GOAL!
+=== FIN DE CYCLE === Repos 10s ===
