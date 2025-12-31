@@ -1,0 +1,1588 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[french]{babel}
+\renewcommand{\thesection}{\arabic{section}}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{chngcntr}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{xcolor}
+% \usepackage[table]{xcolor}
+\usepackage{colortbl} % extension nécessaire
+%\usepackage{array}
+\usepackage{listings}
+\lstdefinestyle{serialstyle}{
+	basicstyle=\ttfamily\small,
+	frame=single,
+	backgroundcolor=\color{black!5},
+	breaklines=true,
+	breakatwhitespace=true,
+	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+	numbers=none,  % Pas de numéros de ligne pour le serial
+	showstringspaces=false,
+	columns=flexible,
+	keepspaces=true
+}
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    firstnumber = 1,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=7pt,
+    frame=single,
+    breaklines=true,              % Active le retour à la ligne automatique
+    breakatwhitespace=true,       % Coupe aux espaces si possible
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},  % Flèche pour indiquer la continuation
+    tabsize=4,
+    showstringspaces=false,
+    backgroundcolor=\color{lightgray!20},
+    columns=flexible,             % Meilleure gestion de l'espacement
+    keepspaces=true              % Garde les espaces
+}
+
+\lstset{style=pythonstyle}
+
+% Activer la numérotation dans chapter.section.subsection
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+% Redéfinir l'affichage du numéro des figures/tables
+% \renewcommand{\thefigure}{\thechapter.\thesection.\arabic{figure}}
+% \renewcommand{\thetable}{\thechapter.\thesection.\arabic{table}}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,      
+	urlcolor=black,
+}
+
+\pagestyle{fancy}
+\lhead{Nouamane SOUADI}
+\chead{\bfseries Rapport de projet IAvoid}
+\rhead{\today}
+
+\setcounter{tocdepth}{2} 
+\begin{document}
+    \begin{titlepage}
+    \begin{center}
+        \fbox{\begin{minipage}{\textwidth}
+            \vspace{0.5cm}
+            \centering
+            \begin{minipage}{.24\textwidth}
+                \begin{flushleft}
+                    \includegraphics[scale=.35]{"img/logo-emi.png"}
+                \end{flushleft}
+            \end{minipage}
+            \hfill	
+            \begin{minipage}{.45\textwidth}
+                \centering
+                \normalsize
+                Royaume du Maroc \\ Université Mohammed V de Rabat \\ École Mohammadia d'Ingénieurs
+            \end{minipage}
+            \hfill
+            \begin{minipage}{.29\textwidth}
+                \begin{flushright}
+                    \includegraphics[scale=.3]{"img/logo-um5.png"}
+                \end{flushright}
+            \end{minipage}
+            
+            \large
+            \vspace{4cm}
+            \textbf{Département :} Génie Électrique\\
+            \underline{\textbf{Rapport de projet IA}} \\
+                
+            \vspace{1cm}
+            % Encadrement du titre
+            \fbox{\begin{minipage}{0.7\textwidth}
+                \centering
+                \Huge 
+                \vspace{.5cm}
+                \Large IAvoid : Robot industrielle agissant contre des obstacles aléatoires\\
+                \vspace{0.3cm}
+            \end{minipage}}
+            
+            \vspace{1cm}
+            \today
+            
+            \vspace{3cm}
+            \begin{minipage}{.4\textwidth}
+                \centering
+                \textbf{Réalisé par :}\\
+                Nouamane SOUADI
+            \end{minipage}	
+            \hfill
+            \begin{minipage}{.4\textwidth}
+                \centering
+                \textbf{Encadré par :}\\
+                Pr. Asmae AZZAM JAI
+            \end{minipage}
+            
+            \vspace{5cm}
+            \bfseries Année Universitaire : 2025/2026
+            \vspace{0.5cm}
+        \end{minipage}}
+        \end{center}
+    \end{titlepage}
+
+    %%% Page vierge
+    \newpage
+    \thispagestyle{empty}
+    \null
+    
+    \newpage
+    \setcounter{page}{1}
+    \thispagestyle{empty}
+    \tableofcontents
+    
+    \newpage  % Nouvelle page pour les listes de figures et tableaux
+    
+    %%% TABLE DES FIGURES ET LISTE DES TABLEAUX SUR LA MÊME PAGE
+    % On désactive temporairement les sauts de page automatiques
+    \begingroup
+    \let\clearpage\relax
+    \let\cleardoublepage\relax
+    
+    %%% TABLE DES FIGURES
+    \listoffigures
+    \addcontentsline{toc}{section}{Table des figures}
+    
+    %%% Espacement entre les deux listes
+    \vspace{2cm}
+    
+    %%% LISTE DES TABLEAUX
+    \listoftables
+    \addcontentsline{toc}{section}{Liste des tableaux}
+    
+    \endgroup
+    
+    \newpage  % Nouvelle page pour commencer le contenu
+    \section{C'est quoi IAvoid}
+        Le IAvoid est:\\
+        
+        \noindent
+        -I\textbf{\underline{AVOID}} : C’est un robot industriel (ex. déplacer des charges lourdes) capable d’agir face à des obstacles.\\
+        -\textbf{\underline{IA}}VOID : Le processus de traitement de l’action est 100\% basé sur l’IA (Intelligence Artificiel) afin de modifier le chemin optimal à un chemin efficace contre les obstacles\\
+        
+        IAvoid est un robot concis pour le domaine industriel, conçu généralement pour lever des charges et les déplacer dans un \textbf{environnement incertain}.\\
+    
+        Dans un environnement incertain, le IAVOID se trouvent chaque fois des obstacles d'une façon aléatoire. Supposant que notre environnement est un monde de \textbf{NxN grids}, le robot a 3 actions possibles : \textbf{FORWARD, TURN\_RIGHT, TURN\_LEFT}.\\
+        
+        (Une modélisation 3d du système est envisageable)
+
+    \section{Principe de fonctionnement}
+        Voici l'organigramme explicatif du fonctionnement général du système:\\
+
+        \begin{figure}[h]
+        \centering
+            \includegraphics[scale=.5]{img/organigramme général.png}
+            \caption{Organigramme du fonctionnement général}
+        \end{figure}
+
+        Le système est lancé dans la première fois sans base de données, avec un chemin préféré au préalable seulement. L'objectif du système est alors de modifier ce chemin préféré à un autre chemin plus \textbf{optimal} qui marchera pour la majorité des obstacles qui va trouver dans chaque cycle d'apprentissage.\\
+
+        Chaque fois le système enregistre l'historique des actions faites, et analyse les taux de succès, les zones les plus fréquentés...etc.\\
+
+        \textbf{Ressources et bibliothèques:}\\ 
+        \underline{PYTHON}\\
+        pygame : Simulation en Python\\
+        pandas : Gestion des BD et stockage sur Excel\\
+        mumpy : Calcul matriciel\\
+        random : Génération aléatoire des obstacles\\
+
+        \noindent
+        \underline{ARDUINO}\\
+        pour simulation réelle simple et plus simplifiée (et réalisable en terme des moyens)
+
+    \section{L'apprentissage renforcé}
+        Pour ce cadre d'apprentissage de notre système, notre IA doit être capable d'apprendre à fur et à mesure que le système est en marche. Il s'agit bien d'un apprentissage dit \textbf{renforcé} vue qu'il est basé sur les expériences de notre système et les résultats qu'il a trouvé.\\
+
+        Plus exactement, j'ai choisit le \textbf{Q-learning algorithm} basé sur des recherches transversales sur ce principe d'IA. (possibilité de recherche plus comparative)
+        \begin{figure}[h]
+            \centering
+            \includegraphics[scale=.6]{img/principe IA.png}
+            \caption{Principe de Q-Learning algorithm}
+        \end{figure}
+
+        \subsection{Q-Table}
+            A fur et à mesure l’algorithme actualise le Q-Table et prend la décision avec le minimum des pertes (maximiser les récompenses)\\
+            \begin{equation}
+                Q(S,A) \longleftarrow Q(S,A) + \alpha . (R + \gamma . Q(S',Un') - Q(S,A))
+            \end{equation}
+            Avec:S: l’état actuel.\\
+            A: l’action entreprise par l’agent.\\
+            S’: l’état suivant vers lequel l’agent se déplace.\\
+            A‘: la meilleure action suivante dans l’état S'.\\
+            R: la récompense reçue pour avoir pris l’action A dans l’État S.\\
+            $\gamma$ (Gamma): le facteur d’actualisation qui équilibre les récompenses immédiates avec les récompenses 
+            futures.\\
+            $\alpha$ (Alpha): le taux d’apprentissage déterminant la quantité de nouvelles informations affectant les anciennes valeurs Q.
+
+        \subsection{Politique $\epsilon$-cupide}
+            \textbf{Pour l’exploitation} : L’agent choisit l’action avec la valeur Q la plus élevée avec probabilité $1-\epsilon$. Cela signifie que l’agent utilise ses connaissances actuelles pour maximiser les récompenses.\\
+            
+            \textbf{Pour l’exploration} : Avec probabilité $\epsilon$, l’agent choisit une action au hasard, explorant de nouvelles possibilités pour savoir s’il existe de meilleures façons d’obtenir des récompenses. Cela permet à l’agent de découvrir de nouvelles stratégies et d’améliorer sa prise de décision au fil du temps.
+
+        \subsection{Equation de Bellman}
+            \begin{equation}
+                Q(S,A) = R(S,A)+\gamma.max(Un Q(S',A))
+            \end{equation}
+            Q(S, A) est la valeur Q d’une paire état-action donnée.\\
+            R(S, A) est la récompense immédiate pour avoir pris des mesures a dans l’état S.\\
+            $\gamma$ est le facteur d’actualisation, représentant l’importance des récompenses futures. \\
+            max(Un Q(S',A)) est la valeur Q maximale pour l’état suivante de toutes les actions possibles.
+
+    \section{Simulation Python}
+        Voici le principe globale du code python de la simulation (voir Annexe A pour le complément):\\
+
+        \begin{figure}[h]
+            \centering
+            \includegraphics[scale=.6]{img/organigramme algo-Q.png}
+            \caption{Organigramme général}
+        \end{figure}
+
+        \subsection{Hyperparamètres de la simulation}
+            Chaque fois qu'on veut analyser l'effet des paramètres du système on modifie les paramètres ci-dessous:
+            \begin{lstlisting}
+# -------------------------
+# Hyperparameters
+# -------------------------
+# 
+learning_rate = 0.3     
+discount_factor = 0.9      
+epsilon = 0.7              
+epsilon_min = 0.01          
+epsilon_decay = 0.997       
+num_episodes = 5000         
+grid_size = 15              
+obstacle_change_interval = 200  
+max_steps_per_episode = 250    
+cell_size = 40
+screen_size = grid_size * cell_size
+tick_time = 240              
+episodes_output = "episode_data.xlsx"     
+\end{lstlisting}
+
+        \subsection{Environnement de la simulation}
+            Voici la composition de l'environnement simulé sur Python à l'aide de 
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/environement-simulation.png}
+                \caption{Environnement de simulation sur Python}
+            \end{figure}
+
+            Comme déjà annoncé, le système se trouve avec des obstacles générés chaque fois d'une façon aléatoire et notre objectif est d'adapté notre chemin de façon de se retrouver à notre position objectif mais avec \textbf{le chemin le plus convenable et stable pour même des futurs obstacles}.\\
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/obstacles-simulation.png}
+                \caption{Simulation de la génération des obstacles}
+            \end{figure}
+
+        \newpage
+        \subsection{Résultats fin de la simulation}
+            Dans ce code Python la simulation est composée de \textbf{25 cycles de 200 épisodes pour chacun} avec une limitation de \textbf{250 itération/step} possible dans chaque épisode (pour éviter une simulation infinie lorsque le système ne trouve pas la bonne solution et reste coincé.\\
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/simulation-dernière-itération.png}
+                \caption{Solution choisie pendant la dernière itération}
+            \end{figure}
+
+            En fait, la dernière itération n'est pas forcément la bonne solution que le système a trouvé, et c'est à cause de l'emplacement des obstacles qui change durant la simulation. (Si l'emplacement a resté fixe le système peut développer avec chaque itération une meilleur solution à fur et à mesure)\\
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/simulation-meilleur-itération.png}
+                \caption{Meilleur solution choisie pendant une simulation/ meilleur récompense}
+            \end{figure}
+            
+            \newpage
+            Cette solution donne la meilleur récompense pendant toute la simulation qui se manifeste par un chemin très court et évitant le maximum des obstacles.
+
+        \subsection{Analyse des données}
+            Après la fin de la simulation toutes les données sont enregistrées sur des fichiers Excel (facile à manipuler)\\
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.6]{img/stockage-données.png}
+                \caption{Stockage des données pour analyse}
+            \end{figure}
+
+            \underline{N.B.:} L'enregistrement des données sur \textbf{"policy\_database.xlsx"} est annulé après pour optimier le temps de la simulation.\\
+
+            Dans notre simulation, le \textbf{cycle 4} était le plus mauvais cycle simulé avec le total des récompenses le plus faible. Généralement s'est produit avec une nouvelle structure d'emplacement des obstacles que le système vient d'essayer comprendre et agir. Et le \textbf{cycle suivant, le cycle 5} a marqué au contraire la meilleur récompense même si le taux de réussite du cycle n'était pas maximal par rapport aux autres cycles, ce qui montre l'évolution rapide de notre système et la réaction prise face à un grand défit au cycle 4.\\
+
+            \begin{minipage}{.4\textwidth}
+                \includegraphics[scale=.4]{img/taux-succès-simulation.png}
+                \captionof{figure}{Taux de succès d'une simulation}
+            \end{minipage}
+            \hfill
+            \begin{minipage}{.5\textwidth}
+                \includegraphics[scale=.45]{img/récompense-par-itération-simulation.png}
+                \captionof{figure}{Evolution de la récompense par itération}
+            \end{minipage}
+
+            \vspace{.5cm}
+            Dans la figure 4.8, on remarque que pendant des itérations le système est coincé sans solution qui est très visible avec les pics négatifs\\
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/tri-par-récompense-descandant.png}
+                \caption{Comparaison entre le cycle 4 et le dernier cycle}
+            \end{figure}
+
+    \section{Comparaison avec les mêmes paramètres}
+        cette section est crucial pour l'optimisation de notre système, nous allons partir d'une comparaison entre \textbf{5 simulations} avec les mêmes paramètres et puis, pour l'optimisation de notre système réel, vers une comparaison de l'effet de chaque paramètre sur les performances du robot dans la prochaine section.
+        
+        \subsection{Heatmap des zones les plus fréquentées}
+                \begin{figure}[h]
+                    \centering
+                    \includegraphics[scale=.6]{img/comparaison-même-heatmap.png}
+                    \caption{Comparaison Heatmap - mêmes paramètres}
+                \end{figure}
+                \newpage
+                Pour information, notre chemin préféré initié au système est de partir vers le coin haut-droit et après descendre vers l'objectif. On remarque alors que le système a la même tendance d'apprentissage vers un chemin optimal qui passe généralement de la diagonale de notre environnement de NxN grids.\\
+
+                Ce choix du chemin diagonal est logique déjà puisque c'est la plus courte distance envisageable mais la distribution autour de ce chemin n'est pas consistante vue que les obstacles peuvent se générer aléatoirement autour de ce chemin.
+
+        \subsection{Récompenses par itération}
+                \begin{figure}[h]
+                    \centering
+                    \includegraphics[scale=.5]{img/comparaison-même-récompense.png}
+                    \caption{Comparaison Récompenses par itération lissées - mêmes paramètres}
+                \end{figure}
+
+                Le système a la même tendance de se coincé dans les premières itérations, tout à fait normal puisque le système vient de commencer son apprentissage avec un minimum d'expérience, reste le moment de \textbf{"failure"} une variable aléatoire encore une fois de la nature du problème posé au système.
+            
+            \newpage
+        \subsection{Taux de réussite}
+                \begin{figure}[h]
+                    \centering
+                    \includegraphics[scale=.6]{img/comparaison-même-taux.png}
+                    \caption{Comparaison Taux de réussite - mêmes paramètres}
+                \end{figure}
+                Ce paramètre est très sensible à la structure d'emplacement des obstacles
+
+        \subsection{Conclusion}
+                \begin{figure}[h]
+                    \centering
+                    \includegraphics[scale=.5]{img/reward_vs_steps.png}
+                    \caption{Comparaison récompense/steps - une simulation}
+                \end{figure}
+                La réponse du système est sensible aux obstacles qui est une variable aléatoire incontrôlable (en nombre et emplacement) d’où les biais entre les simulations mais on constate qu’il y a la même tendance d’apprentissage à travers le Heatmap et la même corrélation \textbf{récompenses/steps} et pente d’apprentissage similaire le moment qu'on a les mêmes paramètres.
+    \section{Comparaison entre les paramètres}
+        On a Trois paramètres majeurs qui affecte les performances du système: \textbf{"Learning\_rate", "Epsilon", "Discount\_factor"}. Nous allons analyser chaque paramètre indépendamment des autres. (Une analyse plus efficace sera de générer plusieurs simulations et modifier automatiquement les paramètres jusqu'à trouver une solution optimale ce qui est envisageable après).\\
+
+        \subsection{Learning\_rate}
+            Valeurs choisis pour la simulation : 0.3 - 0.4 - 0.5 - 0.7 - 0.9\\
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.7]{img/comparaison-learning.png}
+                \caption{Comparaison Learning\_rate - Heatmap}
+            \end{figure}
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.6]{img/comparaison-learning-taux.png}
+                \caption{Comparaison Learning\_rate - Taux de réussite}
+            \end{figure}
+
+            Plus le Learning\_rate est grand plus le système construit des chemins structurés et fiables (consistants). Face à des obstacles aléatoires et prafois complexes, le choix \textbf{d'augmenter le Learning\_rate} est judicieux pour des taux de réussite plus optimal.
+
+        \subsection{Epsilon}
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/comparaison-epsilon.png}
+                \caption{Comparaison Epsilon - Vision globale}
+            \end{figure}
+            
+            Pour une première analyse on donne à Epsilon des valeurs dispersées : 0.1 - 0.3 - 0.5 - 0.7 - 0.9, on trouve qu'il faut avoir \textbf{une valeur proche de 0.5}. En fait, le "Epsilon" en question est \textbf{une valeur initié au début de la simulation} qui est perdue par la suite, et donc tout dépend de la complexité des obstacles générés.\\
+
+            Pour une deuxième analyse, on donne à Epsilon : 0.5 - 0.55 - 0.6 - 0.65 - 0.7
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/comparaison-epsilon-heatmap.png}
+                \caption{Comparaison Epsilon - Heatmap}
+            \end{figure}
+
+            Par la suite le système a une réponse aléatoire indépendamment de la valeur d'Epsilon\\
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.6]{img/comparaison-epsilon-taux.png}
+                \caption{Comparaison Epsilon - Taux de réussite}
+            \end{figure}
+
+        \newpage
+        \subsection{Discount\_factor}
+            Passant maintenant au Discount\_factor, ce paramètre définit comment on donne les récompense au système chaque fois il fait des mauvaises choix ou bien ne donne pas des solutions optimisées.\\
+            
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.45]{img/comparaison-discount-heatmap.png}
+                \caption{Comparaison Discount\_factor - Heatmap}
+            \end{figure}
+
+            \begin{figure}[h]
+                \centering
+                \includegraphics[scale=.5]{img/comparaison-discount-taux.png}
+                \caption{Comparaison Discount\_factor - Taux de réussite}
+            \end{figure}
+            
+            Face à des valeurs très grandes de ce paramètre, le système est forcé alors de trouver des solutions optimale et naviguer les opportunités possibles.\\
+            
+        \subsection{Conclusion}
+            Pour conclure, à l'aide de cette analyse on a pu comprendre l'effet de chaque paramètre indépendamment des autres, reste encore de trouver des valeurs optimales en harmonie qui sera bien évidemment un compromis entre les avantages et inconvénients de l'ensemble.\\
+
+            Pour cela, et pour l'instant on va utiliser seulement une estimation des valeurs choisis dans le tableau 6.1, en attendant de développer une simulation plus efficace qui nous donnera des valeurs plus efficaces.\\
+            
+            \begin{table}[h]
+                \caption{Liste des valeurs choisis pour la simulation réelle}
+                \centering
+                \begin{tabular}{|c|c|c|}
+                \hline
+                    Learning\_rate & Epsilon & Discount\_factor \\
+                    \hline
+                    0.9 & 0.65 & 0.95\\
+                    \hline
+                \end{tabular}
+            \end{table}
+    \section{Simulation réelle avec ARDUINO}        
+            A l'aide de code ARDUINO dans l'annexe B, nous allons essayer d'implémenter la solution à notre système réel. Les ressources qu'on a sont : Carte ARDUINO UNO, capteur Ultrasonc pour la détection des obstacles, deux moteurs avec un driver et une batterie pour l'alimentation continue du système.\\
+            
+            Exemple sortie du système pour analyse des performances :\\
+            
+            \begin{multicols}{2}
+            	\begin{lstlisting}[style=serialstyle]
+=== Q-Learning Robot - Mémoire Optimisée
+Start: (0,0) facing East | Goal: (4,4)
+Cycles: 50 | Terminologie: Cycle = parcours, Épisode = action
+Début de l apprentissage...
+
+
+--- Cycle 1 (eps=0.30) ---
+E0: FORWARD (0,0) -1
+E1: TURN_LEFT (0,1) -1
+E2: TURN_LEFT (0,1) -1
+E3: FORWARD (0,1) -1
+E4: FORWARD (0,0) MUR -5
+E5: TURN_LEFT (0,0) -1
+E6: FORWARD (0,0) -1
+E7: FORWARD (1,0) -1
+E8: FORWARD (2,0) -1
+E9: FORWARD (3,0) -1
+E10: FORWARD (4,0) MUR -5
+E11: TURN_LEFT (4,0) -1
+E12: FORWARD (4,0) -1
+E13: FORWARD (4,1) NEW_OBS(4,2) -10
+E14: TURN_LEFT (4,1) -1
+E15: TURN_RIGHT (4,1) -1
+E16: TURN_RIGHT (4,1) -1
+E17: FORWARD (4,1) MUR -5
+E18: FORWARD (4,1) MUR -5
+E19: TURN_LEFT (4,1) -1
+E20: TURN_LEFT (4,1) -1
+E21: FORWARD (4,1) -1
+E22: FORWARD (3,1) -1
+E23: TURN_LEFT (2,1) -1
+E24: FORWARD (2,1) -1
+E25: FORWARD (2,0) MUR -5
+E26: TURN_LEFT (2,0) -1
+E27: TURN_LEFT (2,0) -1
+E28: FORWARD (2,0) -1
+E29: FORWARD (2,1) -1
+E30: FORWARD (2,2) -1
+E31: FORWARD (2,3) -1
+E32: FORWARD (2,4) MUR -5
+E33: TURN_LEFT (2,4) -1
+>>> OBSTACLE en (1,4)
+E34: FORWARD (2,4) OBS(1,4) -10
+E35: FORWARD (2,4) OBS(1,4) -10
+E36: TURN_LEFT (2,4) -1
+E37: FORWARD (2,4) -1
+E38: TURN_RIGHT (2,3) -1
+E39: FORWARD (2,3) -1
+E40: FORWARD (1,3) -1
+E41: FORWARD (0,3) MUR -5
+E42: TURN_LEFT (0,3) -1
+E43: FORWARD (0,3) -1
+E44: FORWARD (0,2) -1
+E45: TURN_LEFT (0,1) -1
+E46: FORWARD (0,1) NEW_OBS(1,1) -10
+E47: TURN_LEFT (0,1) -1
+E48: FORWARD (0,1) -1
+E49: FORWARD (0,2) -1
+Fin: 50 ep, R=-114
+=== FIN DE CYCLE === Repos 10s ===
+
+--- Cycle 2 (eps=0.30) ---
+E0: FORWARD (0,0) -1
+E1: FORWARD (0,1) -1
+E2: TURN_LEFT (0,2) -1
+E3: FORWARD (0,2) MUR -5
+E4: TURN_LEFT (0,2) -1
+E5: TURN_LEFT (0,2) -1
+E6: FORWARD (0,2) -1
+E7: TURN_LEFT (1,2) -1
+E8: FORWARD (1,2) -1
+E9: FORWARD (1,3) -1
+E10: TURN_RIGHT (1,4) -1
+E11: FORWARD (1,4) -1
+E12: FORWARD (2,4) -1
+E13: FORWARD (3,4) -1
+>>> GOAL +100 <<<
+Fin: 14 ep, R=83 GOAL!
+=== FIN DE CYCLE === Repos 10s ===
+
+--- Cycle 3 (eps=0.30) ---
+E0: FORWARD (0,0) -1
+E1: TURN_LEFT (0,1) -1
+E2: FORWARD (0,1) MUR -5
+E3: TURN_RIGHT (0,1) -1
+E4: FORWARD (0,1) -1
+E5: FORWARD (0,2) -1
+E6: FORWARD (0,3) -1
+E7: TURN_RIGHT (0,4) -1
+E8: FORWARD (0,4) -1
+>>> OBSTACLE en (2,4)
+E9: TURN_RIGHT (1,4) -1
+E10: FORWARD (1,4) -1
+E11: FORWARD (1,3) -1
+E12: FORWARD (1,2) -1
+E13: FORWARD (1,1) -1
+E14: TURN_RIGHT (1,0) -1
+E15: FORWARD (1,0) -1
+E16: TURN_RIGHT (0,0) -1
+E17: FORWARD (0,0) -1
+E18: FORWARD (0,1) -1
+E19: TURN_RIGHT (0,2) -1
+E20: TURN_LEFT (0,2) -1
+E21: FORWARD (0,2) -1
+E22: FORWARD (0,3) -1
+E23: TURN_RIGHT (0,4) -1
+E24: FORWARD (0,4) -1
+E25: TURN_RIGHT (1,4) -1
+E26: TURN_LEFT (1,4) -1
+E27: FORWARD (1,4) OBS(2,4) -10
+E28: FORWARD (1,4) OBS(2,4) -10
+E29: FORWARD (1,4) OBS(2,4) -10
+E30: FORWARD (1,4) OBS(2,4) -10
+E31: FORWARD (1,4) OBS(2,4) -10
+E32: TURN_LEFT (1,4) -1
+E33: TURN_RIGHT (1,4) -1
+E34: TURN_LEFT (1,4) -1
+E35: TURN_RIGHT (1,4) -1
+E36: TURN_LEFT (1,4) -1
+E37: TURN_LEFT (1,4) -1
+E38: FORWARD (1,4) -1
+E39: TURN_LEFT (0,4) -1
+E40: FORWARD (0,4) -1
+E41: TURN_LEFT (0,3) -1
+E42: FORWARD (0,3) -1
+E43: TURN_RIGHT (1,3) -1
+E44: TURN_RIGHT (1,3) -1
+E45: TURN_LEFT (1,3) -1
+E46: TURN_RIGHT (1,3) -1
+E47: TURN_RIGHT (1,3) -1
+E48: TURN_RIGHT (1,3) -1
+E49: TURN_RIGHT (1,3) -1
+Fin: 50 ep, R=-99
+=== FIN DE CYCLE === Repos 10s ==='            		
+            		
+            	\end{lstlisting}
+            \end{multicols}
+            
+	    On définit tout d'abord un chemin préféré au système comme ci-contre:\\
+	    
+	    \begin{figure}
+	    	\centering
+	    	\includegraphics[scale=.7]{img/ard-chemin-préféré.png}
+	    	\caption{Chemin préféré - Simulation ARDUINO}
+	    \end{figure}
+    	
+    	Ce chemin est déjà prédéfinie au système, mais avec la politique $\epsilon$-cupide, le robot prend des décisions aléatoires avec la probabilité $\epsilon$ pour explorer de nouvelles solutions plus optimales.
+    	
+    	\begin{figure}[h]
+    		\centering
+    		\includegraphics[scale=.7]{img/ard-test1.png}
+    		\caption{Test 1 - Simulation ARDUINO}
+    	\end{figure}
+    	
+    	Parfois cette exploration donne des chemins plus optimales à fur et à mesure exemple Test1.
+    	\begin{figure}[h]
+    		\centering
+    		\includegraphics[scale=.7]{img/ard-test2.png}
+    		\caption{Test 2 - Simulation ARDUINO}
+    	\end{figure}
+    	
+    	\newpage
+    	Sinon parfois le système reste coincé sans solution ou bien épuise le maximum des mouvements possible pendant un cycle:
+    	\begin{figure}[h]
+    		\centering
+    		\includegraphics[scale=.7]{img/ard-test3.png}
+    		\caption{Test 3 - Simulation ARDUINO}
+    	\end{figure}
+    
+    
+    %%%% ANNEXES
+    \chapter*{Annexes}
+    \addcontentsline{toc}{section}{Annexes}
+
+    \section*{Annexe A : Code complet simulation Python}
+    \begin{lstlisting}
+import pygame
+import sys
+import numpy as np
+import random
+import pandas as pd
+import time
+from collections import deque
+import argparse
+import uuid
+
+# -------------------------
+# Hyperparameters
+# -------------------------
+# 
+learning_rate = 0.3     
+discount_factor = 0.9      
+epsilon = 0.7              
+epsilon_min = 0.01          
+epsilon_decay = 0.997       
+num_episodes = 5000         
+grid_size = 15              
+obstacle_change_interval = 200  
+max_steps_per_episode = 250    
+cell_size = 40
+screen_size = grid_size * cell_size
+tick_time = 240              
+episodes_output = "episode_data.xlsx"
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (200, 30, 30)
+PINK = (255, 170, 170)
+GREEN = (0, 200, 0)
+BLUE = (30, 144, 255)
+GREY = (200, 200, 200)
+
+# Directions: 0-North (up), 1-East (right), 2-South (down), 3-West (left)
+deltas = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+dir_names = ['North', 'East', 'South', 'West']
+
+# Actions: 0-forward, 1-turn_left, 2-turn_right
+action_names = ['forward', 'turn_left', 'turn_right']
+act_chars = ['F', 'L', 'R']
+action_to_idx = {name: idx for idx, name in enumerate(action_names)}
+
+# -------------------------
+# Environment class
+# -------------------------
+class Environment:
+    def __init__(self):
+        self.start_pos = (0, 0)
+        self.start_facing = 1  # East
+        self.goal = (grid_size - 1, grid_size - 1)
+        self.true_obstacles = set()
+        self.known_obstacles = set()
+        self.position = self.start_pos
+        self.facing = self.start_facing
+
+    def reset(self, keep_known=False):
+        self.position = self.start_pos
+        self.facing = self.start_facing
+        if not keep_known:
+            self.known_obstacles = set()
+        self.reveal_neighborhood()
+        return (self.position[0], self.position[1], self.facing)
+
+    def add_random_obstacles(self, num):
+        self.true_obstacles = set()
+        attempts = 0
+        while len(self.true_obstacles) < num and attempts < num * 30:
+            attempts += 1
+            x = random.randint(0, grid_size - 1)
+            y = random.randint(0, grid_size - 1)
+            coord = (x, y)
+            if coord == self.start_pos or coord == self.goal:
+                continue
+            self.true_obstacles.add(coord)
+        while not self.is_path_possible():
+            if not self.true_obstacles:
+                break
+            self.true_obstacles.pop()
+
+    def is_path_possible(self):
+        visited = set()
+        queue = deque([(self.start_pos, self.start_facing)])
+        visited.add((self.start_pos[0], self.start_pos[1], self.start_facing))
+        while queue:
+            (x, y), f = queue.popleft()
+            if (x, y) == self.goal:
+                return True
+            # Try forward
+            dx, dy = deltas[f]
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < grid_size and 0 <= ny < grid_size and (nx, ny) not in self.true_obstacles:
+                if (nx, ny, f) not in visited:
+                    visited.add((nx, ny, f))
+                    queue.append(((nx, ny), f))
+            # Try turn_left
+            nf = (f - 1) % 4
+            if (x, y, nf) not in visited:
+                visited.add((x, y, nf))
+                queue.append(((x, y), nf))
+            # Try turn_right
+            nf = (f + 1) % 4
+            if (x, y, nf) not in visited:
+                visited.add((x, y, nf))
+                queue.append(((x, y), nf))
+        return False
+
+    def reveal_neighborhood(self):
+        x, y = self.position
+        dx, dy = deltas[self.facing]
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < grid_size and 0 <= ny < grid_size:
+            coord = (nx, ny)
+            if coord in self.true_obstacles:
+                self.known_obstacles.add(coord)
+
+    def step(self, action):
+        done = False
+        if action == 1:  # turn_left
+            self.facing = (self.facing - 1) % 4
+            reward = -1
+            self.reveal_neighborhood()
+            return (self.position[0], self.position[1], self.facing), reward, done
+        elif action == 2:  # turn_right
+            self.facing = (self.facing + 1) % 4
+            reward = -1
+            self.reveal_neighborhood()
+            return (self.position[0], self.position[1], self.facing), reward, done
+
+        # action == 0: forward
+        dx, dy = deltas[self.facing]
+        tx = max(0, min(self.position[0] + dx, grid_size - 1))
+        ty = max(0, min(self.position[1] + dy, grid_size - 1))
+        target = (tx, ty)
+
+        if target == self.position:  # hit wall
+            reward = -5
+            self.reveal_neighborhood()
+            return (self.position[0], self.position[1], self.facing), reward, done
+
+        if target in self.true_obstacles:
+            reward = -10
+            self.reveal_neighborhood()
+            return (self.position[0], self.position[1], self.facing), reward, done
+
+        self.position = target
+        self.reveal_neighborhood()
+        if self.position == self.goal:
+            reward = 100
+            done = True
+        else:
+            reward = -1
+        return (self.position[0], self.position[1], self.facing), reward, done
+
+# -------------------------
+# Utilities
+# -------------------------
+def get_obstacle_config_key(obstacles):
+    return tuple(sorted(obstacles))
+
+def draw_grid(screen, env, episode, cycle):
+    screen.fill(WHITE)
+    for x in range(0, screen_size, cell_size):
+        pygame.draw.line(screen, GREY, (x, 0), (x, screen_size))
+    for y in range(0, screen_size, cell_size):
+        pygame.draw.line(screen, GREY, (0, y), (screen_size, y))
+
+    for ox, oy in env.true_obstacles:
+        pygame.draw.rect(screen, RED, (oy * cell_size, ox * cell_size, cell_size, cell_size))
+    for ox, oy in env.known_obstacles:
+        pygame.draw.rect(screen, PINK, (oy * cell_size + 6, ox * cell_size + 6, cell_size - 12, cell_size - 12))
+
+    pygame.draw.rect(screen, BLUE, (env.start_pos[1] * cell_size, env.start_pos[0] * cell_size, cell_size, cell_size))
+    pygame.draw.rect(screen, GREEN, (env.goal[1] * cell_size, env.goal[0] * cell_size, cell_size, cell_size))
+
+    font = pygame.font.SysFont(None, 22)
+    txt = font.render(f"Episode: {episode}/{num_episodes}  Cycle: {cycle}  Known: {len(env.known_obstacles)}", True, BLACK)
+    screen.blit(txt, (8, 6))
+
+def get_learned_path(env, Q, max_steps=max_steps_per_episode):
+    sim_env = Environment()
+    sim_env.start_pos = env.start_pos
+    sim_env.start_facing = env.start_facing
+    sim_env.goal = env.goal
+    sim_env.true_obstacles = set(env.true_obstacles)
+    state = sim_env.reset(keep_known=False)
+    path = [state]
+    done = False
+    steps = 0
+    while not done and steps < max_steps:
+        x, y, f = state
+        action = int(np.argmax(Q[x, y, f]))
+        new_state, _, done = sim_env.step(action)
+        path.append(new_state)
+        state = new_state
+        steps += 1
+    return path
+
+def animate_path(screen, path, env, episode, cycle, tick_time=60):
+    index = 0
+    clock = pygame.time.Clock()
+    font = pygame.font.SysFont(None, 22)
+    while index < len(path):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+        draw_grid(screen, env, episode, cycle)
+        x, y, f = path[index]
+        cx = y * cell_size + cell_size // 2
+        cy = x * cell_size + cell_size // 2
+        radius = cell_size // 3
+        pygame.draw.circle(screen, BLUE, (cx, cy), radius)
+        drow, dcol = deltas[f]
+        pygame.draw.line(screen, BLACK, (cx, cy), (cx + dcol * radius, cy + drow * radius), 3)
+        txt = font.render(f"Step: {index}/{len(path)-1}", True, BLACK)
+        screen.blit(txt, (10, 30))
+        pygame.display.flip()
+        clock.tick(tick_time)
+        index += 1
+    time.sleep(0.3)
+    return True
+
+def print_policy_to_console(Q, env):
+    for f in range(4):
+        print(f"\nPolicy facing {dir_names[f]} (S=start, G=goal, X=obst, F/L/R=actions):")
+        for x in range(grid_size):
+            row = []
+            for y in range(grid_size):
+                pos = (x, y)
+                if pos == env.start_pos:
+                    row.append('S ')
+                elif pos == env.goal:
+                    row.append('G ')
+                elif pos in env.true_obstacles:
+                    row.append('X ')
+                else:
+                    a = np.argmax(Q[x, y, f])
+                    row.append(act_chars[a] + ' ')
+            print(''.join(row))
+
+def initialize_q_with_preferred_path(Q, preferred_path, env):
+    sim_env = Environment()
+    sim_env.start_pos = env.start_pos
+    sim_env.start_facing = env.start_facing
+    sim_env.goal = env.goal
+    sim_env.true_obstacles = set()
+    state = sim_env.reset(keep_known=False)
+    q_bonus = 50.0
+    for action_name in preferred_path:
+        if action_name not in action_to_idx:
+            print(f"Invalid action '{action_name}' in preferred path. Skipping.")
+            continue
+        action_idx = action_to_idx[action_name]
+        x, y, f = state
+        Q[x, y, f, action_idx] += q_bonus
+        new_state, _, done = sim_env.step(action_idx)
+        state = new_state
+        if done:
+            break
+
+# -------------------------
+# Excel/CSV append helper
+# -------------------------
+from openpyxl import load_workbook
+
+def save_policies_append(policy_db, filename="policy_database.xlsx", use_csv=False):
+    if use_csv:
+        for idx, (config_key, q_table) in enumerate(policy_db.items()):
+            rows = []
+            for x in range(q_table.shape[0]):
+                for y in range(q_table.shape[1]):
+                    for f in range(4):
+                        pos = (x, y)
+                        if pos == (0, 0):
+                            action = "Start"
+                        elif pos == (q_table.shape[0] - 1, q_table.shape[1] - 1):
+                            action = "Goal"
+                        elif pos in config_key:
+                            action = "Obstacle"
+                        else:
+                            action_idx = int(np.argmax(q_table[x, y, f]))
+                            action = action_names[action_idx]
+                        rows.append({
+                            "x": x, "y": y, "facing": dir_names[f],
+                            "action": action, "obstacle_config": str(config_key)
+                        })
+            df = pd.DataFrame(rows)
+            csv_file = f"policy_config_{idx}_{len(config_key)}obs.csv"
+            df.to_csv(csv_file, index=False)
+            print(f"Policy saved to '{csv_file}'.")
+    else:
+        try:
+            book = load_workbook(filename)
+            existing_sheets = [ws.title for ws in book.worksheets]
+            with pd.ExcelWriter(filename, engine="openpyxl", mode="a", if_sheet_exists="new") as writer:
+                start_idx = len(existing_sheets)
+                for idx, (config_key, q_table) in enumerate(policy_db.items(), start=start_idx):
+                    rows = []
+                    for x in range(q_table.shape[0]):
+                        for y in range(q_table.shape[1]):
+                            for f in range(4):
+                                pos = (x, y)
+                                if pos == (0, 0):
+                                    action = "Start"
+                                elif pos == (q_table.shape[0] - 1, q_table.shape[1] - 1):
+                                    action = "Goal"
+                                elif pos in config_key:
+                                    action = "Obstacle"
+                                else:
+                                    action_idx = int(np.argmax(q_table[x, y, f]))
+                                    action = action_names[action_idx]
+                                rows.append({
+                                    "x": x, "y": y, "facing": dir_names[f],
+                                    "action": action, "obstacle_config": str(config_key)
+                                })
+                    df = pd.DataFrame(rows)
+                    sheet_name = f"Config_{idx}_{len(config_key)}obs"
+                    df.to_excel(writer, sheet_name=sheet_name[:31], index=False)
+        except FileNotFoundError:
+            with pd.ExcelWriter(filename, engine="openpyxl", mode="w") as writer:
+                for idx, (config_key, q_table) in enumerate(policy_db.items()):
+                    rows = []
+                    for x in range(q_table.shape[0]):
+                        for y in range(q_table.shape[1]):
+                            for f in range(4):
+                                pos = (x, y)
+                                if pos == (0, 0):
+                                    action = "Start"
+                                elif pos == (q_table.shape[0] - 1, q_table.shape[1] - 1):
+                                    action = "Goal"
+                                elif pos in config_key:
+                                    action = "Obstacle"
+                                else:
+                                    action_idx = int(np.argmax(q_table[x, y, f]))
+                                    action = action_names[action_idx]
+                                rows.append({
+                                    "x": x, "y": y, "facing": dir_names[f],
+                                    "action": action, "obstacle_config": str(config_key)
+                                })
+                    df = pd.DataFrame(rows)
+                    sheet_name = f"Config_{idx}_{len(config_key)}obs"
+                    df.to_excel(writer, sheet_name=sheet_name[:31], index=False)
+        print(f"Policies appended to '{filename}'.")
+
+# -------------------------
+# Main training loop
+# -------------------------
+def main(preferred_path=None, no_render=False, use_csv=False):
+    global epsilon
+    pygame.init()
+    screen = None if no_render else pygame.display.set_mode((screen_size, screen_size))
+    if not no_render:
+        pygame.display.set_caption('Q-Learning Partial Observability - Car-like Agent')
+
+    env = Environment()
+    Q = np.zeros((grid_size, grid_size, 4, 3))  # Updated for 3 actions
+    policy_db_local = {}
+    episode_data = []  # To store paths and rewards
+    cycle = 0
+
+    env.true_obstacles = set()
+    env.reset(keep_known=False)
+    if preferred_path:
+        print(f"Applying preferred path for empty map: {preferred_path}")
+        initialize_q_with_preferred_path(Q, preferred_path, env)
+
+    for episode in range(num_episodes):
+        if not no_render:
+            for evt in pygame.event.get():
+                if evt.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+        if episode % obstacle_change_interval == 0:
+            cycle += 1
+            if episode == 0:
+                env.true_obstacles = set()
+                print(f"[Cycle {cycle}] Starting with empty obstacle map.")
+            else:
+                env.add_random_obstacles(max(4, int(grid_size * 0.8)))
+                print(f"[Cycle {cycle}] New true obstacles set ({len(env.true_obstacles)} obstacles).")
+
+        state = env.reset(keep_known=False)
+        done = False
+        steps = 0
+        total_reward = 0
+        path = [state]
+
+        while not done and steps < max_steps_per_episode:
+            steps += 1
+            x, y, f = state
+            if random.random() < epsilon:
+                action = random.randint(0, 2)  # Updated for 3 actions
+            else:
+                action = int(np.argmax(Q[x, y, f]))
+
+            new_state, reward, done = env.step(action)
+            total_reward += reward
+            path.append(new_state)
+            nx, ny, nf = new_state
+            best_next = int(np.argmax(Q[nx, ny, nf]))
+            td_target = reward + discount_factor * Q[nx, ny, nf, best_next]
+            td_error = td_target - Q[x, y, f, action]
+            Q[x, y, f, action] += learning_rate * td_error
+            state = new_state
+
+        if not done:
+            last_x, last_y, last_f = state
+            Q[last_x, last_y, last_f, :] -= 0.02
+
+        # Store episode data
+        episode_data.append({
+            'episode': episode + 1,
+            'cycle': cycle,
+            'path': path,
+            'total_reward': total_reward,
+            'steps': steps,
+            'reached_goal': done,
+            'obstacle_config': str(get_obstacle_config_key(env.true_obstacles))
+        })
+
+        print(f"[Cycle {cycle}] Episode {episode+1}/{num_episodes}: steps={steps}, reached={done}, eps={epsilon:.3f}, total_reward={total_reward:.2f}")
+
+        if episode % obstacle_change_interval == obstacle_change_interval - 1 or episode == num_episodes - 1:
+            cfg_key = get_obstacle_config_key(env.true_obstacles)
+            policy_db_local[cfg_key] = Q.copy()
+            print(f"[Cycle {cycle}] Snapshot saved for config (obs={len(cfg_key)}).")
+            learned_path = get_learned_path(env, Q)
+            print(f"[Cycle {cycle}] Learned path length: {len(learned_path)}")
+            print_policy_to_console(Q, env)
+            if not no_render:
+                cont = animate_path(screen, learned_path, env, episode + 1, cycle, tick_time=int(tick_time / 2))
+                if not cont:
+                    break
+
+        epsilon = max(epsilon_min, epsilon * epsilon_decay)
+
+    print('Training finished. Saving all snapshots and episode data.')
+    # if policy_db_local:
+    #     save_policies_append(policy_db_local, use_csv=use_csv)
+
+    # Save episode data to CSV
+    episode_df = pd.DataFrame([
+        {
+            'episode': data['episode'],
+            'cycle': data['cycle'],
+            'path': ';'.join([f"({x},{y},{dir_names[f]})" for x, y, f in data['path']]),
+            'total_reward': data['total_reward'],
+            'steps': data['steps'],
+            'reached_goal': data['reached_goal'],
+            'obstacle_config': data['obstacle_config']
+        } for data in episode_data
+    ])
+    params_df = pd.DataFrame({
+        'learning_rate': [learning_rate],
+        'discount_factor': [discount_factor],
+        'epsilon': [epsilon],
+        'epsilon_min': [epsilon_min],
+        'epsilon_decay': [epsilon_decay],
+        'num_episodes': [num_episodes],
+        'grid_size': [grid_size],
+        'obstacle_change_interval': [obstacle_change_interval],
+        'max_steps_per_episode': [max_steps_per_episode]
+    })
+    with pd.ExcelWriter(episodes_output, engine='openpyxl', mode='w') as writer:
+        params_df.to_excel(writer, sheet_name='Hyperparameters', index=False)
+        episode_df.to_excel(writer, sheet_name='EpisodeData', index=False)
+    print(f"Episode data saved to {episodes_output}.")
+
+    if not no_render:
+        last_path = get_learned_path(env, Q)
+        index = 0
+        clock = pygame.time.Clock()
+        font = pygame.font.SysFont(None, 22)
+        running = True
+        while running:
+            for evt in pygame.event.get():
+                if evt.type == pygame.QUIT:
+                    running = False
+            draw_grid(screen, env, num_episodes, cycle)
+            if index < len(last_path):
+                x, y, f = last_path[index]
+                cx = y * cell_size + cell_size // 2
+                cy = x * cell_size + cell_size // 2
+                radius = cell_size // 3
+                pygame.draw.circle(screen, BLUE, (cx, cy), radius)
+                drow, dcol = deltas[f]
+                pygame.draw.line(screen, BLACK, (cx, cy), (cx + dcol * radius, cy + drow * radius), 3)
+                txt = font.render(f"Step: {index}/{len(last_path)-1}", True, BLACK)
+                screen.blit(txt, (10, 30))
+                index += 1
+            else:
+                index = 0
+            pygame.display.flip()
+            clock.tick(tick_time)
+
+    pygame.quit()
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Q-Learning with Partial Observability')
+    parser.add_argument('--no-render', action='store_true', help='Disable Pygame rendering')
+    parser.add_argument('--use-csv', action='store_true', help='Save policies as CSV instead of Excel')
+    args = parser.parse_args()
+
+    preferred_path = ['forward']*(grid_size-1) + ['turn_right'] + ['forward']*(grid_size-1)
+    main(preferred_path=preferred_path, no_render=args.no_render, use_csv=args.use_csv)    
+    \end{lstlisting}
+
+	\newpage
+    \section*{Annexe B : Code complet ARDUINO}
+    \begin{lstlisting}[language=C++]
+// Q-Learning Obstacle Avoidance Robot in 5x5 Grid World - Arduino Uno
+// Avec enregistrement de toutes les données d'apprentissage
+// Terminologie : Cycle = ensemble complet du début au goal, Épisode = chaque action
+#define ENA 2
+#define IN1 22
+#define IN2 23
+#define IN3 24
+#define IN4 25
+#define ENB 3
+#define TRIG_PIN 9
+#define ECHO_PIN 10 
+#define GRID_SIZE 5
+#define NUM_ACTIONS 3
+#define CELL_DIST 10
+#define MOVE_TIME 300
+
+#define TURN_TIME 700
+#define ACTION_WAIT 1000
+#define RESET_DELAY 10000
+#define MAX_STEPS 50
+
+// Q-LEARNING HYPERPARAMETERS - OPTIMISÉS
+#define LEARNING_RATE 0.5      // Apprentissage rapide
+#define DISCOUNT 0.9           // Focus objectif proche
+#define EPSILON 0.3            
+#define EPSILON_MIN 0.05       // 5% exploration minimale
+#define EPSILON_DECAY 0.95     // Décroissance rapide
+#define NUM_CYCLES 50         
+
+// Tables Q-learning
+int8_t Q[GRID_SIZE][GRID_SIZE][4][NUM_ACTIONS] = {0};
+
+// Variables d'état
+int pos_x = 0, pos_y = 0, facing = 1;
+int goal_x = 4, goal_y = 4;
+bool known_obstacles[GRID_SIZE][GRID_SIZE] = {false};
+float epsilon = EPSILON;
+
+// TABLEAUX D'ENREGISTREMENT DES DONNÉES - OPTIMISÉS
+int8_t cycle_steps[NUM_CYCLES];        // Nombre d'épisodes (actions) par cycle
+int cycle_rewards[NUM_CYCLES];         // Récompense totale par cycle (int au lieu de float)
+byte cycle_success[NUM_CYCLES];        // 0=échec, 1=succès (byte au lieu de bool)
+
+// Statistiques en temps réel (pas de stockage complet)
+int current_cycle = 0;
+int current_episodes = 0;
+int current_reward = 0;
+unsigned long cycle_start_time = 0;
+
+// Constantes
+const int deltas[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+const char* dir_names[4] = {"North", "East", "South", "West"};
+const char* action_names[3] = {"FORWARD", "TURN_LEFT", "TURN_RIGHT"};
+
+void setup() {
+	pinMode(TRIG_PIN, OUTPUT);
+	pinMode(ECHO_PIN, INPUT);
+	pinMode(ENA, OUTPUT); pinMode(ENB, OUTPUT);
+	pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+	pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+	pinMode(LED_BUILTIN, OUTPUT);
+	digitalWrite(LED_BUILTIN, LOW);
+	
+	Serial.begin(9600);
+	randomSeed(analogRead(0));
+	
+	// Initialisation des tableaux
+	for (int i = 0; i < NUM_CYCLES; i++) {
+		cycle_steps[i] = 0;
+		cycle_rewards[i] = 0;
+		cycle_success[i] = 0;
+	}
+	
+	Serial.println(F("=== Q-Learning Robot - Mémoire Optimisée ==="));
+	Serial.println(F("Start: (0,0) facing East | Goal: (4,4)"));
+	Serial.println(F("Cycles: 50 | Terminologie: Cycle = parcours, Épisode = action"));
+	Serial.println(F("Début de l'apprentissage...\n"));
+	initializeQWithPreferred();
+	blinkDuringReset();
+}
+
+void blinkOnAction() {
+	digitalWrite(LED_BUILTIN, HIGH);
+	delay(100);
+	digitalWrite(LED_BUILTIN, LOW);
+	delay(100);
+}
+
+void blinkDuringReset() {
+	unsigned long startTime = millis();
+	bool ledState = false;
+	
+	Serial.println(F("=== FIN DE CYCLE === Repos 10s ==="));
+	
+	while (millis() - startTime < RESET_DELAY) {
+		if ((millis() - startTime) % 1000 < 500) {
+			if (!ledState) {
+				digitalWrite(LED_BUILTIN, HIGH);
+				ledState = true;
+			}
+		} else {
+			if (ledState) {
+				digitalWrite(LED_BUILTIN, LOW);
+				ledState = false;
+			}
+		}
+		delay(10);
+	}
+	digitalWrite(LED_BUILTIN, LOW);
+}
+
+void initializeQWithPreferred() {
+	int sim_x = 0, sim_y = 0, sim_f = 1;
+	float bonus = 50.0;
+	for (int i = 0; i < 4; i++) {
+		Q[sim_x][sim_y][sim_f][0] += bonus;
+		sim_y += deltas[sim_f][1];
+	}
+	Q[sim_x][sim_y][sim_f][2] += bonus;
+	sim_f = (sim_f + 1) % 4;
+	for (int i = 0; i < 4; i++) {
+		Q[sim_x][sim_y][sim_f][0] += bonus;
+		sim_x += deltas[sim_f][0];
+	}
+}
+
+int getDistance() {
+	digitalWrite(TRIG_PIN, LOW); delayMicroseconds(2);
+	digitalWrite(TRIG_PIN, HIGH); delayMicroseconds(10);
+	digitalWrite(TRIG_PIN, LOW);
+	long duration = pulseIn(ECHO_PIN, HIGH);
+	return duration * 0.034 / 2;
+}
+
+bool revealNeighborhood() {
+	int dx = deltas[facing][0];
+	int dy = deltas[facing][1];
+	int nx = pos_x + dx;
+	int ny = pos_y + dy;
+	if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE) {
+		int dist = getDistance();
+		if (dist < CELL_DIST && !known_obstacles[nx][ny]) {
+			known_obstacles[nx][ny] = true;
+			Serial.print(F(">>> OBSTACLE en ("));
+			Serial.print(nx); Serial.print(","); Serial.print(ny);
+			Serial.println(F(")"));
+			
+			// VÉRIFIER SI OBSTACLE AU GOAL
+			if (nx == goal_x && ny == goal_y) {
+				Serial.println(F("!!!!! OBSTACLE AU GOAL (4,4) - CYCLE INVALIDE !!!!!"));
+				return true;  // Signaler qu'il faut redémarrer le cycle
+			}
+		}
+	}
+	return false;  // Pas d'obstacle au goal
+}
+
+void reset() {
+	pos_x = 0;
+	pos_y = 0;
+	facing = 1;
+	memset(known_obstacles, 0, sizeof(known_obstacles));
+	
+	// Vérifier si obstacle au goal dès le début
+	if (revealNeighborhood()) {
+		// Obstacle au goal détecté - attendre repositionnement
+		Serial.println(F(">>> Attente repositionnement obstacle du goal - nouveau cycle..."));
+		blinkDuringReset();
+		reset();  // Réessayer le cycle
+	}
+}
+
+int chooseAction() {
+	if (random(1000) / 1000.0 < epsilon) {
+		return random(NUM_ACTIONS);
+	} else {
+		int best = 0;
+		for (int a = 1; a < NUM_ACTIONS; a++) {
+			if (Q[pos_x][pos_y][facing][a] > Q[pos_x][pos_y][facing][best]) best = a;
+		}
+		return best;
+	}
+}
+
+float executeAction(int action, int step) {
+	float reward = 0;
+	
+	// Affichage simplifié
+	Serial.print(F("E"));
+	Serial.print(step);
+	Serial.print(F(": "));
+	Serial.print(action_names[action]);
+	Serial.print(F(" ("));
+	Serial.print(pos_x); Serial.print(","); Serial.print(pos_y);
+	Serial.print(F(")"));
+	
+	blinkOnAction();
+	
+	if (action == 1) { // turn left
+		turnLeft(TURN_TIME-20);
+		facing = (facing - 1 + 4) % 4;
+		reward = -1;
+		Serial.println(F(" -1"));
+	}
+	else if (action == 2) { // turn right
+		turnRight(TURN_TIME);
+		facing = (facing + 1) % 4;
+		reward = -1;
+		Serial.println(F(" -1"));
+	}
+	else { // forward
+		int dx = deltas[facing][0];
+		int dy = deltas[facing][1];
+		int nx = pos_x + dx;
+		int ny = pos_y + dy;
+		if (nx < 0 || nx >= GRID_SIZE || ny < 0 || ny >= GRID_SIZE) {
+			Serial.println(F(" MUR -5"));
+			reward = -5;
+		}
+		else if (known_obstacles[nx][ny]) {
+			Serial.print(F(" OBS("));
+			Serial.print(nx); Serial.print(","); Serial.print(ny);
+			Serial.println(F(") -10"));
+			reward = -10;
+			
+			if (nx == goal_x && ny == goal_y) {
+				reward = -999;
+			}
+		}
+		else {
+			int dist = getDistance();
+			if (dist < CELL_DIST) {
+				known_obstacles[nx][ny] = true;
+				Serial.print(F(" NEW_OBS("));
+				Serial.print(nx); Serial.print(","); Serial.print(ny);
+				Serial.println(F(") -10"));
+				reward = -10;
+				
+				if (nx == goal_x && ny == goal_y) {
+					Serial.println(F("!!! GOAL BLOQUÉ !!!"));
+					reward = -999;
+				}
+			}
+			else {
+				moveForward(MOVE_TIME);
+				pos_x = nx;
+				pos_y = ny;
+				reward = -1;
+				Serial.println(F(" -1"));
+			}
+		}
+	}
+	
+	if (pos_x == goal_x && pos_y == goal_y) {
+		Serial.println(F(">>> GOAL +100 <<<"));
+		reward = 100;
+	}
+	
+	revealNeighborhood();
+	//delay(ACTION_WAIT);
+	return reward;
+}
+
+void moveForward(int ms) {
+	analogWrite(ENA, 200); analogWrite(ENB, 200);
+	digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
+	digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
+	delay(ms);
+	stopMotors();
+}
+
+void turnLeft(int ms) {
+	analogWrite(ENA, 180); analogWrite(ENB, 180);
+	digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH);
+	digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
+	delay(ms);
+	stopMotors();
+}
+
+void turnRight(int ms) {
+	analogWrite(ENA, 180); analogWrite(ENB, 180);
+	digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
+	digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH);
+	delay(ms);
+	stopMotors();
+}
+
+void stopMotors() {
+	digitalWrite(IN1, LOW); digitalWrite(IN2, LOW);
+	digitalWrite(IN3, LOW); digitalWrite(IN4, LOW);
+}
+
+// FONCTION POUR AFFICHER LES STATISTIQUES - SIMPLIFIÉ
+void printStatistics() {
+	Serial.println(F("\n===== STATISTIQUES ====="));
+	Serial.println(F("Cycle,Episodes,Reward,Success"));
+	
+	int total_episodes = 0;
+	long total_rewards = 0;
+	int success_count = 0;
+	
+	for (int i = 0; i < NUM_CYCLES; i++) {
+		Serial.print(i + 1); Serial.print(",");
+		Serial.print(cycle_steps[i]); Serial.print(",");
+		Serial.print(cycle_rewards[i]); Serial.print(",");
+		Serial.println(cycle_success[i]);
+		
+		total_episodes += cycle_steps[i];
+		total_rewards += cycle_rewards[i];
+		if (cycle_success[i]) success_count++;
+	}
+	
+	Serial.println(F("\n--- RÉSUMÉ ---"));
+	Serial.print(F("Moy épisodes: "));
+	Serial.println((float)total_episodes / NUM_CYCLES);
+	Serial.print(F("Moy reward: "));
+	Serial.println((float)total_rewards / NUM_CYCLES);
+	Serial.print(F("Succès: "));
+	Serial.print((float)success_count * 100 / NUM_CYCLES);
+	Serial.println(F("%"));
+}
+
+void loop() {
+	/*
+	// Chemin Préféré
+	executeAction(0, 1);
+	executeAction(0, 2);
+	executeAction(0, 3);
+	executeAction(0, 4);
+	executeAction(2, 5);
+	executeAction(0, 6);
+	executeAction(0, 7);
+	executeAction(0, 8);
+	executeAction(0, 9);
+	blinkDuringReset();
+	reset();*/
+	static int cycle = 0;
+	
+	if (cycle >= NUM_CYCLES) {
+		// AFFICHER LES STATISTIQUES
+		printStatistics();
+		
+		Serial.println(F("\n=== MODE EXPLOITATION ==="));
+		epsilon = 0;
+		reset();
+		
+		while (true) {
+			int action = chooseAction();
+			executeAction(action, 0);
+			if (pos_x == goal_x && pos_y == goal_y) {
+				blinkDuringReset();
+				reset();
+			}
+		}
+	}
+	
+	// DÉBUT DU CYCLE
+	reset();
+	
+	bool done = false;
+	bool cycle_invalid = false;
+	int episodes = 0;
+	int total_reward = 0;
+	
+	Serial.print(F("\n--- Cycle "));
+	Serial.print(cycle + 1);
+	Serial.print(F(" (eps="));
+	Serial.print(epsilon, 2);
+	Serial.println(F(") ---"));
+	
+	while (!done && episodes < MAX_STEPS) {
+		int action = chooseAction();
+		int old_x = pos_x, old_y = pos_y, old_f = facing;
+		
+		float reward = executeAction(action, episodes);
+		total_reward += (int)reward;
+		
+		// VÉRIFIER SI OBSTACLE AU GOAL
+		if (reward == -999) {
+			Serial.println(F(">>> REDÉMARRAGE CYCLE <<<"));
+			cycle_invalid = true;
+			blinkDuringReset();
+			break;
+		}
+		
+		if (pos_x == goal_x && pos_y == goal_y) done = true;
+		
+		// Mise à jour Q
+		int8_t max_next = Q[pos_x][pos_y][facing][0];
+		for (int a = 1; a < NUM_ACTIONS; a++) {
+			if (Q[pos_x][pos_y][facing][a] > max_next) max_next = Q[pos_x][pos_y][facing][a];
+		}
+		
+		Q[old_x][old_y][old_f][action] = (int8_t)constrain(
+		Q[old_x][old_y][old_f][action] + (int8_t)round(LEARNING_RATE * 4 * (reward + DISCOUNT * max_next - Q[old_x][old_y][old_f][action])),
+		-128, 127
+		);
+		
+		episodes++;
+	}
+	
+	// ENREGISTRER LES DONNÉES
+	if (!cycle_invalid) {
+		cycle_steps[cycle] = episodes;
+		cycle_rewards[cycle] = total_reward;
+		cycle_success[cycle] = done ? 1 : 0;
+		
+		Serial.print(F("Fin: "));
+		Serial.print(episodes);
+		Serial.print(F(" ep, R="));
+		Serial.print(total_reward);
+		if (done) Serial.println(F(" GOAL!"));
+		else Serial.println();
+		
+		epsilon = max(EPSILON_MIN, epsilon * EPSILON_DECAY);
+		blinkDuringReset();
+		cycle++;
+	}
+}
+    \end{lstlisting}
+    
+    
+    \chapter*{Bibliographie}
+    \addcontentsline{toc}{section}{Bibliographie}
+    \begin{itemize}
+    	\item Q-Learning in Reinforcement Learning - GeeksforGeeks:\\
+    	\href{https://www.geeksforgeeks.org/machine-learning/q-learning-in-python/}{https://www.geeksforgeeks.org/machine-learning/q-learning-in-python/}
+    \end{itemize}
+    
+    
+\end{document}

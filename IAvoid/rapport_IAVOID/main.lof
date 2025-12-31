@@ -1,0 +1,27 @@
+\babel@toc {french}{}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Organigramme du fonctionnement général}}{3}{figure.caption.4}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Principe de Q-Learning algorithm}}{4}{figure.caption.5}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Organigramme général}}{5}{figure.caption.6}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Environnement de simulation sur Python}}{6}{figure.caption.7}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Simulation de la génération des obstacles}}{7}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Solution choisie pendant la dernière itération}}{7}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Meilleur solution choisie pendant une simulation/ meilleur récompense}}{8}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Stockage des données pour analyse}}{8}{figure.caption.11}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Taux de succès d'une simulation}}{9}{figure.0.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Evolution de la récompense par itération}}{9}{figure.0.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Comparaison entre le cycle 4 et le dernier cycle}}{9}{figure.caption.12}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Comparaison Heatmap - mêmes paramètres}}{10}{figure.caption.13}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Comparaison Récompenses par itération lissées - mêmes paramètres}}{10}{figure.caption.14}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Comparaison Taux de réussite - mêmes paramètres}}{11}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Comparaison récompense/steps - une simulation}}{11}{figure.caption.16}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Comparaison Learning\_rate - Heatmap}}{12}{figure.caption.17}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Comparaison Learning\_rate - Taux de réussite}}{12}{figure.caption.18}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Comparaison Epsilon - Vision globale}}{13}{figure.caption.19}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Comparaison Epsilon - Heatmap}}{13}{figure.caption.20}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Comparaison Epsilon - Taux de réussite}}{14}{figure.caption.21}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Comparaison Discount\_factor - Heatmap}}{14}{figure.caption.22}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Comparaison Discount\_factor - Taux de réussite}}{14}{figure.caption.23}%
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Chemin préféré - Simulation ARDUINO}}{17}{figure.caption.25}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Test 1 - Simulation ARDUINO}}{17}{figure.caption.26}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Test 2 - Simulation ARDUINO}}{18}{figure.caption.27}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Test 3 - Simulation ARDUINO}}{18}{figure.caption.28}%
